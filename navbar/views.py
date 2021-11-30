@@ -22,7 +22,7 @@ def navbar_View(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-
+@csrf_exempt
 def update_navbar_View(request,pk):
     try: 
         item = navbar_items.objects.get(pk=pk) 
