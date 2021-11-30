@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .serializers import navitem_serializer
+from .serializers import navitem_serializer,backgroundSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .models import navbar_items
+from .models import background_hero, navbar_items
 # Create your views here.
 
 @csrf_exempt
@@ -43,5 +43,20 @@ def update_navbar_View(request,pk):
     
         
 
+@csrf_exempt
+def background_View(request):
+   
+    if request.method == 'GET':
+        items = background_hero.objects.all()
+        serializer = backgroundSerializer(items, many=True)
+        return JsonResponse(serializer.data, safe=False,status=200)
+  
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = backgroundSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
 
