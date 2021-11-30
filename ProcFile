@@ -1,1 +1,1 @@
-web: gunicorn metroproject.wsgi
+web: gunicorn Metro.wsgi
