@@ -27,7 +27,7 @@ def update_navbar_View(request,pk):
     try: 
         item = navbar_items.objects.get(pk=pk) 
     except navbar_items.DoesNotExist: 
-        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+        return JsonResponse({'message': 'The tutorial does not exist'}, status=404) 
  
     if request.method =="PUT":
         data = JSONParser().parse(request)
@@ -39,7 +39,7 @@ def update_navbar_View(request,pk):
 
     elif request.method == 'DELETE': 
         item.delete() 
-        return JsonResponse({'message': 'Tutorial was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'message': 'Tutorial was deleted successfully!'}, status=401)
     
         
 
