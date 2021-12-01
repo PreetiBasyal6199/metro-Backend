@@ -50,13 +50,13 @@ def update_navbar_View(request,pk):
 def background_View(request):
    
     if request.method == 'GET':
-        items = why_metro.objects.all()
-        serializer = why_metroSerializer(items, many=True)
+        items = background_hero.objects.all()
+        serializer = backgroundSerializer(items, many=True)
         return JsonResponse(serializer.data, safe=False,status=200)
   
     elif request.method == 'POST':
         # data = JSONParser().parse(request)
-        serializer = why_metroSerializer(data=request.DATA)
+        serializer = backgroundSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
