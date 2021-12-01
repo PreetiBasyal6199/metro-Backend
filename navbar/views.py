@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from .models import background_hero, navbar_items
+from rest_framework.parsers import JSONParser,MultiPartParser
+from rest_framework.decorators import parser_classes
 # Create your views here.
 
 @csrf_exempt
@@ -44,6 +46,7 @@ def update_navbar_View(request,pk):
         
 
 @csrf_exempt
+@parser_classes([JSONParser,MultiPartParser])
 def background_View(request):
    
     if request.method == 'GET':
