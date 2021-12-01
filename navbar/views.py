@@ -56,7 +56,7 @@ def background_View(request):
   
     elif request.method == 'POST':
         # data = JSONParser().parse(request)
-        serializer = backgroundSerializer(data=request.data,files=request.files)
+        serializer = backgroundSerializer(data=request.DATA,files=request.FILES)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
