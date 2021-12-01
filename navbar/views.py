@@ -94,8 +94,8 @@ def why_metro_View(request):
         return JsonResponse(serializer.data, safe=False,status=200)
   
     elif request.method == 'POST':
-        # data = JSONParser().parse(request)
-        serializer = why_metroSerializer(data=request.data)
+        data = JSONParser().parse(request)
+        serializer = why_metroSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
