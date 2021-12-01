@@ -14,9 +14,10 @@ class backgroundSerializer(serializers.ModelSerializer):
 
 
 class serviceSerializer(serializers.ModelSerializer):
+    service_image=serializers.ImageField(max_length=None,use_url=True)
     class Meta:
         model=services
-        fields=['id','service_head','service_title','service_image','service_description']
+        fields=['id','service_title','service_image','service_description']
 
 
 class why_metroSerializer(serializers.ModelSerializer):
