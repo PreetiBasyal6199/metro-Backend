@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .serializers import navitem_serializer,backgroundSerializer
+from .serializers import navitem_serializer,backgroundSerializer,serviceSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .models import background_hero, navbar_items
+from .models import background_hero, navbar_items,services
 from rest_framework.parsers import JSONParser,MultiPartParser
 from rest_framework.decorators import parser_classes
 # Create your views here.
@@ -68,5 +68,20 @@ def background_View(request):
 
 
 
+@csrf_exempt
+@parser_classes([JSONParser,MultiPartParser])
+def service_View(request):
+   
+    if request.method == 'GET':
+        service = services.objects.all()
+        serializer = serviceSerializer(service, many=True)
+        return JsonResponse(serializer.data, safe=False,status=200)
+  
+    elif request.method == 'POST':
+        serializer = serviceSerializer(data=request.DATA,files=request.FILES)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
  

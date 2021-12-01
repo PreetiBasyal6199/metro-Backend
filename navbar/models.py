@@ -16,3 +16,10 @@ class background_hero(models.Model):
     background_title=models.CharField(max_length=100)
     background_stitle=models.CharField(max_length=50)
     button_name=models.CharField(max_length=25)
+
+
+class services(models.Model):
+    service_head=models.CharField(max_length=50)
+    service_image=models.ImageField(upload_to="services")
+    service_title=models.CharField(max_length=25)
+    service_description=models.CharField(max_length=250)
