@@ -8,6 +8,6 @@ urlpatterns=[
      path('nav-items/', navbar_View),
      path('nav-items/<int:pk>/', update_navbar_View),
      path('background-item/',background_View),
-     path('nav-items/', service_View),
+     path('services/', service_View),
      
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
