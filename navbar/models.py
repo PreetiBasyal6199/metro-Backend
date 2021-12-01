@@ -23,3 +23,7 @@ class services(models.Model):
     service_image=models.ImageField(upload_to="services")
     service_title=models.CharField(max_length=25)
     service_description=models.CharField(max_length=250)
+
+class why_metro(models.Model):
+    why_head=models.CharField(max_length=50)
+    why_content=models.CharField(max_length=500)
