@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.urls import path
-from django.conf.urls.static import static
+
 from .views import navbar_View,update_navbar_View,service_View,background_View,why_metro_View
 
 from . import views
@@ -11,4 +11,4 @@ urlpatterns=[
      path('services/', service_View),
      path('why-metro/', why_metro_View),
      
-]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+]
