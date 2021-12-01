@@ -12,7 +12,7 @@ class navbar_items(models.Model):
 
 
 class background_hero(models.Model):
-    background_img=models.ImageField()
+    background_img=models.ImageField(upload_t0="/images")
     background_title=models.CharField(max_length=100)
     background_stitle=models.CharField(max_length=50)
     button_name=models.CharField(max_length=25)
