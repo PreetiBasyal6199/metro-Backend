@@ -21,7 +21,7 @@ class background_hero(models.Model):
 class services(models.Model):
     service_image=models.ImageField(upload_to="services")
     service_title=models.CharField(max_length=25)
-    service_description=models.CharField(max_length=250)
+    service_description=models.CharField(max_length=1000)
 
 class why_metro(models.Model):
     why_head=models.CharField(max_length=50)
