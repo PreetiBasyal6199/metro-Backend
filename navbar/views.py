@@ -41,9 +41,7 @@ def update_navbar_View(request,pk):
 
     elif request.method == 'DELETE': 
         item.delete() 
-        return JsonResponse({'message': 'Item was deleted successfully!'}, status=401)
-    
-        
+        return JsonResponse({'message': 'Item was deleted successfully!'}, status=401)      
 
 @csrf_exempt
 @parser_classes([JSONParser,])
@@ -55,18 +53,12 @@ def background_View(request):
         return JsonResponse(serializer.data, safe=False,status=200)
   
     elif request.method == 'POST':
-        # data = JSONParser().parse(request)
-        serializer = backgroundSerializer(data=request.data)
+        data = MultiPartParser().parse(request)
+        serializer = backgroundSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-
-
-
-
-
-
 
 @csrf_exempt
 @parser_classes([JSONParser,MultiPartParser])
@@ -78,7 +70,8 @@ def service_View(request):
         return JsonResponse(serializer.data, safe=False,status=200)
   
     elif request.method == 'POST':
-        serializer = serviceSerializer(data=request.DATA,files=request.FILES)
+        data = MultiPartParser().parse(request)
+        serializer = serviceSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
