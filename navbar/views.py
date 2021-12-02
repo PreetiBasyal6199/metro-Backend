@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import background_hero, navbar_items,services,why_metro
 from rest_framework.parsers import JSONParser,MultiPartParser
 from rest_framework.decorators import parser_classes
+from rest_framework.views import APIView
 # Create your views here.
 
 @csrf_exempt
@@ -43,23 +44,34 @@ def update_navbar_View(request,pk):
         item.delete() 
         return JsonResponse({'message': 'Item was deleted successfully!'}, status=401)      
 
-@csrf_exempt
-@parser_classes([JSONParser,])
-def background_View(request):
+# @csrf_exempt
+# @parser_classes([JSONParser,])
+# def background_View(request):
    
-    if request.method == 'GET':
-        items = background_hero.objects.all()
-        serializer = backgroundSerializer(items, many=True)
-        return JsonResponse(serializer.data, safe=False,status=200)
+#     if request.method == 'GET':
+#         items = background_hero.objects.all()
+#         serializer = backgroundSerializer(items, many=True)
+#         return JsonResponse(serializer.data, safe=False,status=200)
   
-    elif request.method == 'POST':
-        data = MultiPartParser().parse(request)
-        serializer = backgroundSerializer(data=data)
+#     elif request.method == 'POST':
+#         data = MultiPartParser().parse(request)
+#         serializer = backgroundSerializer(data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return JsonResponse(serializer.data, status=201)
+#         return JsonResponse(serializer.errors, status=400)
+
+class background_View(APIView):
+    parser_classes = (MultiPartParser, )
+
+    def post(self, request, format=None):
+        print(request.data)
+        print("\n\n\n")
+        serializer = backgroundSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
-
 @csrf_exempt
 @parser_classes([JSONParser,MultiPartParser])
 def service_View(request):
