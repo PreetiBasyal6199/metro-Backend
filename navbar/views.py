@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import background_hero, navbar_items,services,why_metro
 from rest_framework.parsers import JSONParser,MultiPartParser
 from rest_framework.decorators import parser_classes
-from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 # Create your views here.
 
 @csrf_exempt
@@ -61,17 +61,9 @@ def update_navbar_View(request,pk):
 #             return JsonResponse(serializer.data, status=201)
 #         return JsonResponse(serializer.errors, status=400)
 
-class background_View(APIView):
-    parser_classes = (MultiPartParser, )
-
-    def post(self, request, format=None):
-        print(request.data)
-        print("\n\n\n")
-        serializer = backgroundSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+class background_View(ListCreateAPIView):
+    queryset = background_hero.objects.all()
+    serializer_class = backgroundSerializer
 @csrf_exempt
 @parser_classes([JSONParser,MultiPartParser])
 def service_View(request):
