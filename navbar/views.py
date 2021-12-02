@@ -43,23 +43,16 @@ def update_navbar_View(request,pk):
     elif request.method == 'DELETE': 
         item.delete() 
         return JsonResponse({'message': 'Item was deleted successfully!'}, status=401)      
-
-# @csrf_exempt
-# @parser_classes([JSONParser,])
-# def background_View(request):
-   
-#     if request.method == 'GET':
-#         items = background_hero.objects.all()
-#         serializer = backgroundSerializer(items, many=True)
-#         return JsonResponse(serializer.data, safe=False,status=200)
-  
-#     elif request.method == 'POST':
-#         data = MultiPartParser().parse(request)
-#         serializer = backgroundSerializer(data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=201)
-#         return JsonResponse(serializer.errors, status=400)
+from rest_framework.decorators import api_view
+@api_view(['POST'])
+@parser_classes([JSONParser,MultiPartParser])
+def background_Views(request):
+    data = MultiPartParser().parse(request)
+    serializer = backgroundSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=201)
+    return JsonResponse(serializer.errors, status=400)
 
 class background_View(ListCreateAPIView):
     queryset = background_hero.objects.all()
