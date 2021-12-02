@@ -26,3 +26,9 @@ class services(models.Model):
 class why_metro(models.Model):
     why_head=models.CharField(max_length=50)
     why_content=models.CharField(max_length=500)
+
+
+class customer_review(models.Model):
+    review_details=models.CharField(max_length=500)
+    reviewer_name=models.CharField(max_length=50)
+    reviewer_image=models.ImageField()

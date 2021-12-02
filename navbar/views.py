@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .serializers import navitem_serializer,backgroundSerializer,why_metroSerializer,serviceSerializer
+from .serializers import navitem_serializer,backgroundSerializer,customer_reviewSerializer,why_metroSerializer,serviceSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .models import background_hero, navbar_items,services,why_metro
+from .models import background_hero, navbar_items,services,why_metro,customer_review
 from rest_framework.parsers import JSONParser,MultiPartParser
 from rest_framework.decorators import parser_classes
 from rest_framework.generics import ListCreateAPIView
@@ -68,6 +68,11 @@ class background_View(ListCreateAPIView):
 class service_View(ListCreateAPIView):
     queryset = services.objects.all()
     serializer_class = serviceSerializer
+
+
+class review_View(ListCreateAPIView):
+    queryset = customer_review.objects.all()
+    serializer_class = customer_reviewSerializer
 
 @csrf_exempt
 @parser_classes([JSONParser,])
