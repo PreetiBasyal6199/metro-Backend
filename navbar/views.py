@@ -64,22 +64,10 @@ def update_navbar_View(request,pk):
 class background_View(ListCreateAPIView):
     queryset = background_hero.objects.all()
     serializer_class = backgroundSerializer
-@csrf_exempt
-@parser_classes([JSONParser,MultiPartParser])
-def service_View(request):
-   
-    if request.method == 'GET':
-        service = services.objects.all()
-        serializer = serviceSerializer(service, many=True)
-        return JsonResponse(serializer.data, safe=False,status=200)
-  
-    elif request.method == 'POST':
-        data = MultiPartParser().parse(request)
-        serializer = serviceSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+
+class service_View(ListCreateAPIView):
+    queryset = services.objects.all()
+    serializer_class = serviceSerializer
 
 @csrf_exempt
 @parser_classes([JSONParser,])
