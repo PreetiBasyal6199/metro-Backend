@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .serializers import navitem_serializer,backgroundSerializer,customer_reviewSerializer,why_metroSerializer,serviceSerializer
 from django.http import HttpResponse, JsonResponse
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import FormParser, JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from .models import background_hero, navbar_items,services,why_metro,customer_review
 from rest_framework.parsers import JSONParser,MultiPartParser
@@ -43,28 +43,26 @@ def update_navbar_View(request,pk):
     elif request.method == 'DELETE': 
         item.delete() 
         return JsonResponse({'message': 'Item was deleted successfully!'}, status=401)      
-from rest_framework.decorators import api_view
 
-def background_Views(request):
+
+
+
+@csrf_exempt
+def background_View(request):
+   
     if request.method == 'GET':
         items = background_hero.objects.all()
         serializer = backgroundSerializer(items, many=True)
         return JsonResponse(serializer.data, safe=False,status=200)
-    if request.method =="POST":
-        data = MultiPartParser().parse(request)
-        serializer = backgroundSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+  
 
-class background_View(ListCreateAPIView):
-    queryset = background_hero.objects.all()
-    serializer_class = backgroundSerializer
+
 
 class service_View(ListCreateAPIView):
     queryset = services.objects.all()
     serializer_class = serviceSerializer
+
+
 
 
 class review_View(ListCreateAPIView):
@@ -72,7 +70,7 @@ class review_View(ListCreateAPIView):
     serializer_class = customer_reviewSerializer
 
 @csrf_exempt
-@parser_classes([JSONParser,])
+
 def why_metro_View(request):
    
     if request.method == 'GET':
