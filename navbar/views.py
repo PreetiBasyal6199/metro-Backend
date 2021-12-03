@@ -54,20 +54,28 @@ def background_View(request):
         items = background_hero.objects.all()
         serializer = backgroundSerializer(items, many=True)
         return JsonResponse(serializer.data, safe=False,status=200)
-  
+   
 
 
 
-class service_View(ListCreateAPIView):
-    queryset = services.objects.all()
-    serializer_class = serviceSerializer
+@csrf_exempt
+def review_View(request):
+   
+    if request.method == 'GET':
+        items = customer_review.objects.all()
+        serializer = customer_reviewSerializer(items, many=True)
+        return JsonResponse(serializer.data, safe=False,status=200)
 
 
 
 
-class review_View(ListCreateAPIView):
-    queryset = customer_review.objects.all()
-    serializer_class = customer_reviewSerializer
+@csrf_exempt
+def service_View(request):
+   
+    if request.method == 'GET':
+        items = services.objects.all()
+        serializer = backgroundSerializer(items, many=True)
+        return JsonResponse(serializer.data, safe=False,status=200)
 
 @csrf_exempt
 
@@ -85,3 +93,7 @@ def why_metro_View(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+from rest_framework import generics
+from rest_framework.response import Response
+

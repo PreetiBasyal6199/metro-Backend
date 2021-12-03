@@ -8,6 +8,7 @@ class navitem_serializer(serializers.ModelSerializer):
         fields=['navText','link']
 
 class backgroundSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model=background_hero
         fields="__all__"
@@ -27,6 +28,13 @@ class why_metroSerializer(serializers.ModelSerializer):
 
 
 class customer_reviewSerializer(serializers.ModelSerializer):
+    image_url = serializers.ImageField(
+            'get_image_url'
+        )
     class Meta:
         model=customer_review
-        fields=['review_details','reviewer_name','reviewer_image']
+        fields=['review_details','reviewer_name','reviewer_image','image_url']
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.reviewer_image.url)
