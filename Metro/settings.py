@@ -131,7 +131,7 @@ USE_TZ = True
 
 # STATICFILES_DIRS=[os.path.join(BASE_DIR,'staticfiles')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/' # 'http://myhost:port/media/'
 
