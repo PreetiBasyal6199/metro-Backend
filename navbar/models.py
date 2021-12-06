@@ -31,4 +31,4 @@ class why_metro(models.Model):
 class customer_review(models.Model):
     review_details=models.CharField(max_length=500)
     reviewer_name=models.CharField(max_length=50)
-    reviewer_image=models.ImageField()
+    reviewer_image=models.ImageField(upload_to='static/images/')
