@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from .serializers import navitem_serializer,backgroundSerializer,customer_reviewSerializer,why_metroSerializer,serviceSerializer
+from rest_framework.serializers import Serializer
+from .serializers import navitem_serializer,backgroundSerializer,customer_reviewSerializer,why_metroSerializer,serviceSerializer,get_in_touchSerializer,footerserializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import FormParser, JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .models import background_hero, navbar_items,services,why_metro,customer_review
+from .models import background_hero, navbar_items,services,why_metro,customer_review,get_in_touch_items,footer_items
 from rest_framework.parsers import JSONParser,MultiPartParser
 from rest_framework.decorators import parser_classes
 from rest_framework.generics import ListCreateAPIView
@@ -44,37 +45,13 @@ def update_navbar_View(request,pk):
         item.delete() 
         return JsonResponse({'message': 'Item was deleted successfully!'}, status=401)      
 
-
-
-
 @csrf_exempt
 def background_View(request):
    
     if request.method == 'GET':
         items = background_hero.objects.all()
-        serializer = backgroundSerializer(items, many=True)
-        return JsonResponse(serializer.data, safe=False,status=200)
-   
-
-
-
-@csrf_exempt
-def review_View(request):
-   
-    if request.method == 'GET':
-        items = customer_review.objects.all()
-        serializer = customer_reviewSerializer(items, many=True)
-        return JsonResponse(serializer.data, safe=False,status=200)
-
-
-
-
-@csrf_exempt
-def service_View(request):
-   
-    if request.method == 'GET':
-        items = services.objects.all()
-        serializer = backgroundSerializer(items, many=True)
+        context = {'request': request}
+        serializer = backgroundSerializer(items, many=True,context=context)
         return JsonResponse(serializer.data, safe=False,status=200)
 
 @csrf_exempt
@@ -94,6 +71,58 @@ def why_metro_View(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-from rest_framework import generics
-from rest_framework.response import Response
+@csrf_exempt
+def service_View(request):
+   
+    if request.method == 'GET':
+        items = services.objects.all()
+        serializer = serviceSerializer(items, many=True,context = {'request': request})
+        return JsonResponse(serializer.data, safe=False,status=200)
+   
+
+@csrf_exempt
+def review_View(request):
+   
+    if request.method == 'GET':
+        items = customer_review.objects.all()
+        serializer = customer_reviewSerializer(items, many=True,context = {'request': request})
+        return JsonResponse(serializer.data, safe=False,status=200)
+
+    if request.method=="POST":
+        item=MultiPartParser().parse(request)
+        print(item)
+        
+        serializer=customer_reviewSerializer(data=item.data, files=item.files)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+
+
+
+@csrf_exempt
+def getintouch_View(request):
+   
+    if request.method == 'GET':
+        items = get_in_touch_items.objects.all()
+        serializer = get_in_touchSerializer(items, many=True,context = {'request': request})
+        return JsonResponse(serializer.data, safe=False,status=200)
+
+  
+        
+
+
+@csrf_exempt
+def footer_View(request):
+   
+    if request.method == 'GET':
+        items = footer_items.objects.all()
+        serializer = footerserializer(items, many=True,)
+        return JsonResponse(serializer.data, safe=False,status=200)
+
+
+
+
+
+
+
 
